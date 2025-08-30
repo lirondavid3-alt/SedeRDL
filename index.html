@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>יוצר מפות ישיבה</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Heebo', sans-serif; }
+        .animate-fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-spin-fast { animation: spin 1s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+        
+        @media print {
+            @page { 
+                size: A4 landscape; 
+                margin: 0.5cm; /* Reduced margin */
+            }
+            
+            body, html {
+                background: #fff !important;
+                color: #000 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            /* --- ISOLATION --- */
+            body * {
+                visibility: hidden !important;
+            }
+            #printable-area, #printable-area * {
+                visibility: visible !important;
+            }
+
+            /* --- LAYOUT & POSITIONING --- */
+            #printable-area {
+                width: 100% !important;
+                height: 100% !important; /* Ensure it takes full height */
+                margin: 0 !important;
+                padding: 0 !important;
+                box-shadow: none !important;
+                display: flex !important; /* Use flexbox for better control */
+                flex-direction: column !important;
+                justify-content: flex-start !important; /* Align content to the top */
+            }
+
+            #printable-area > .text-center {
+                margin-bottom: 0.75rem !important; /* Reduced margin below header */
+            }
+
+            #printable-area > .flex {
+                display: block !important;
+                text-align: center !important; /* Crucial to center the grid */
+            }
+
+            .classroom-grid {
+                 display: inline-grid !important; /* Critical for centering */
+                 width: auto !important;
+                 gap: 1.2rem !important; /* Increased space between desks */
+            }
+
+            /* --- READABILITY ENHANCEMENTS --- */
+            .desk-container {
+                border: 1px solid #333 !important;
+                box-shadow: none !important;
+                page-break-inside: avoid;
+                width: 185px !important; /* Larger desks */
+                height: 105px !important;
+            }
+            .student-picture {
+                width: 4.2rem !important; /* Larger picture (67.2px) */
+                height: 4.2rem !important;
+            }
+            .student-name {
+                font-size: 0.95rem !important; /* Larger text for names */
+                font-weight: 600 !important;
+                color: #000 !important;
+            }
+
+            /* --- HIDE NON-ESSENTIALS --- */
+            .teacher-desk-area, .seat-number {
+                display: none !important;
+            }
+            .absolute.bottom-0.right-0 {
+                display: none !important;
+            }
+            .desk-container button {
+                background: none !important;
+                border: none !important;
+                padding: 0 !important;
+                display: contents !important;
+            }
+
+            /* Group printing styles */
+             #printable-area .grid[class*="grid-cols-"] {
+                display: block !important;
+            }
+            #printable-area .grid[class*="grid-cols-"] > div {
+                page-break-inside: avoid !important;
+                margin-bottom: 1cm !important;
+                width: 100% !important;
+            }
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@18.2.0",
+    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+    "react-dom/": "https://esm.sh/react-dom@18.2.0/",
+    "react/": "https://esm.sh/react@18.2.0/",
+    "@google/genai": "https://esm.sh/@google/genai"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="bg-slate-50 text-slate-700">
+    <div id="root"></div>
+    <script type="module" src="./index.tsx"></script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
